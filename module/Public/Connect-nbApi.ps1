@@ -12,20 +12,28 @@ Connect-nbAPI -APIurl Contoso -Token $pass
 This asks you for your token and then connects to the netbox API
 .NOTES
 This command mainly takes the variable state information (APIURL and Token) and stores them in module level variables so that further calls to functions will use them.
+
+.PARAMETER Token
+The API token to authenticate with.
+
+.PARAMETER APIurl
+The URL for the Netbox API. This typically takes the form https://netbox.domain.com/api.
+
+.PARAMETER QueryLimit
+Size of pages returned by "get-nb*" commands.
 #>
 function Connect-nbAPI {
     param(
-        #Token for this API
         [Parameter(Mandatory = $true)]
         [SecureString]
         $Token,
-        #APIurl for this API
+
         [Parameter(Mandatory = $true)]
         [uri]
         $APIurl,
-        # Size of pages returned by "Get-nb*" commands.
+
         [int]
-        $QueryLimit = 250
+        $QueryLimit = 500
         #I find the default 50 very slow as the overhead is absurd.
     )
     process {
