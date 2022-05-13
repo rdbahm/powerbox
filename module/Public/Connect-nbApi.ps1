@@ -33,8 +33,11 @@ function Connect-nbAPI {
         $APIurl,
 
         [int]
-        $QueryLimit = 500
+        $QueryLimit = 500,
         #I find the default 50 very slow as the overhead is absurd.
+
+        [Switch]
+        $NoConnectionTest
     )
     process {
         $Script:Token = $Token
@@ -45,6 +48,22 @@ function Connect-nbAPI {
         }
         $Script:APIUrl = $APIUrl
         $Script:QueryLimit = $QueryLimit
+
         Write-Verbose "Saved connection to $Script:APIUrl"
+
+        if(!$NoConnectionTest) {
+            $ConnectionTestResult = $true
+            Try {
+                $ConnectionTestResult = $null -ne (Get-nbObject -Resource 'status' -ErrorAction Stop).'netbox-version'
+            } Catch {
+                $ConnectionTestResult = $false
+            }
+
+            if(!$ConnectionTestResult) {
+                Throw ('Failed to connect to {0}. Check the provided URL and API key.' -f $APIurl)
+            } else {
+                Write-Verbose ('Connected successfully to {0}.' -f $APIurl)
+            }
+        }
     }
 }

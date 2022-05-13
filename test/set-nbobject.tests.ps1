@@ -1,7 +1,7 @@
 Describe 'Set object passes stuff through' {
     BeforeEach {
         $token = ConvertTo-SecureString -String "APITOKEN" -AsPlainText -Force
-        Connect-nbAPI -APIurl 'http://example.com' -Token $token
+        Connect-nbAPI -APIurl 'http://example.com' -Token $token -NoConnectionTest
     }
     it "should call invoke-nbApi with the proper passthrough" {
         $object = [pscustomobject]@{

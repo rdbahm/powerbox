@@ -1,6 +1,6 @@
 Describe 'Set wrapper functions' {
     $token = ConvertTo-SecureString -String "APITOKEN" -AsPlainText -Force
-    Connect-nbAPI -APIurl 'http://example.com' -Token $token
+    Connect-nbAPI -APIurl 'http://example.com' -Token $token -NoConnectionTest
     . $PSScriptRoot\ResourceMap.ps1
 
     $testCases = $ResourceMap.Keys |
@@ -25,7 +25,7 @@ Describe 'Set wrapper functions' {
 }
 Describe 'New wrapper functions' {
     $token = ConvertTo-SecureString -String "APITOKEN" -AsPlainText -Force
-    Connect-nbAPI -APIurl 'http://example.com' -Token $token
+    Connect-nbAPI -APIurl 'http://example.com' -Token $token -NoConnectionTest
     . $PSScriptRoot\ResourceMap.ps1
 
     $testCases = $ResourceMap.Keys |
@@ -50,7 +50,7 @@ Describe 'New wrapper functions' {
 }
 Describe 'Get wrapper functions' {
     $token = ConvertTo-SecureString -String "APITOKEN" -AsPlainText -Force
-    Connect-nbAPI -APIurl 'http://example.com' -Token $token
+    Connect-nbAPI -APIurl 'http://example.com' -Token $token -NoConnectionTest
     . $PSScriptRoot\ResourceMap.ps1
 
     $testCases = $ResourceMap.Keys |
@@ -86,7 +86,7 @@ Describe 'Get wrapper functions' {
 }
 Describe 'Remove wrapper functions' {
     $token = ConvertTo-SecureString -String "APITOKEN" -AsPlainText -Force
-    Connect-nbAPI -APIurl 'http://example.com' -Token $token
+    Connect-nbAPI -APIurl 'http://example.com' -Token $token -NoConnectionTest
     . $PSScriptRoot\ResourceMap.ps1
 
     $testCases = $ResourceMap.Keys |

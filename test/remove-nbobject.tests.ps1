@@ -1,7 +1,7 @@
 Describe 'Remove object passes stuff through' {
     BeforeEach {
         $token = ConvertTo-SecureString -String "APITOKEN" -AsPlainText -Force
-        Connect-nbAPI -APIurl 'http://example.com' -Token $token
+        Connect-nbAPI -APIurl 'http://example.com' -Token $token -NoConnectionTest
     }
     it "should call invoke-nbApi with the proper passthrough" {
         $filter = [scriptblock]::Create("`$Resource -eq '$resourceName/0'")
