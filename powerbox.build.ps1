@@ -120,20 +120,24 @@ task Test {#-If { $Discovery.HasTests -and $Settings.ShouldTest } {
         Where-Object name -notlike '*debug*' |
         Where-Object name -notlike '*build*' |
         Where-Object name -NotLike '*ResourceMap*'
-    $PesterSettings = @{
-        #OutputFormat = "NUnitXml"
-        #OutputFile   = "TestResult.xml"
-        PassThru     = $True
-        #EnableExit   = $True
-        Show         = "None"
-        CodeCoverage = $files
+    $PesterConfigHashtable = @{
+        Run = @{
+            PassThru = $true
+        }
+        CodeCoverage = @{
+            Enabled = $true
+        }
+        Output = @{
+            Verbosity = 'None'
+        }
     }
+    $PesterConfig = New-PesterConfiguration -Hashtable $PesterConfigHashtable
+
     if (!$ENV:APPVEYOR) {
-        $PesterSettings['CodeCoverage'] = $null
-        $PesterSettings['PesterOption'] = @{IncludeVSCodeMarker = $true}
-        $PesterSettings['Show'] = "Fails"
+        $PesterConfig.CodeCoverage.Enabled = $false
+        $PesterConfig.Output.Verbosity = 'Normal'
     }
-    $Tests = (Invoke-Pester @PesterSettings)
+    $Tests = (Invoke-Pester -Configuration $PesterConfig)
     foreach ($test in $Tests.TestResult) {
         if ($ENV:APPVEYOR) {
             $acceptable = 'None','Running','Passed','Failed','Ignored','Skipped','Inconclusive','NotFound',' Cancelled','NotRunnable'
