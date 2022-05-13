@@ -44,23 +44,7 @@ function New-nbObject {
 
         # you can specify properties as arguments to this command
         [Parameter(Mandatory=$true)]
-        $Object,
-
-        # Passthrough to invoke-nbapi
-        # [Parameter(ValueFromRemainingArguments = $true, ParameterSetName = 'Normal')]
-        # [Parameter(ValueFromRemainingArguments = $true, ParameterSetName = 'Connect')]
-        # [HashTable]
-        # $AdditionalParams,
-
-        #AccessId for this API
-        [Parameter(Mandatory = $true, ParameterSetName = 'Connect')]
-        [SecureString]
-        $Token,
-
-        #AccessKey for this API
-        [Parameter(Mandatory = $true, ParameterSetName = 'Connect')]
-        [uri]
-        $APIUrl
+        $Object
     )
 
     $mapObject = @{custom_fields = @{}}

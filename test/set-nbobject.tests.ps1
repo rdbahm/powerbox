@@ -31,7 +31,7 @@ Describe 'Set object passes stuff through' {
         Mock Invoke-nbApi {} -ModuleName powerbox -Verifiable
         Mock ConvertTo-nbID {return 0} -ModuleName powerbox
         {Set-nbObject -Id 1 -Resource dcim/devices -Lookup $lookup -object $object } | Should -not -Throw
-        Assert-MockCalled -CommandName Invoke-nbApi -Times 2 -Exactly -ModuleName powerbox <#-ParameterFilter {
+        Assert-MockCalled -CommandName Invoke-nbApi -Times 1 -Exactly -ModuleName powerbox <#-ParameterFilter {
             $Id -eq 1 -and
             $body -eq '{"Name":"NewDevice","Serial":"Example","device-type":0}' -and
             $resource -eq 'dcim/devices' -and

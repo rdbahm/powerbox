@@ -25,7 +25,7 @@ function Connect-nbAPI {
         $APIurl,
         # Size of pages returned by "Get-nb*" commands.
         [int]
-        $QueryLimit = 250 
+        $QueryLimit = 250
         #I find the default 50 very slow as the overhead is absurd.
     )
     process {
