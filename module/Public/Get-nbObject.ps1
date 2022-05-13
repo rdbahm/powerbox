@@ -79,16 +79,24 @@ function Get-nbObject {
     }
     if ($APIUrl) {
         $params['APIUrl'] = $APIUrl
+    } else {
+        [uri]$APIUrl = $Script:APIUrl
     }
     $object = Invoke-nbApi @params
     if ($object.count -and $object.results) {
         $results = $object.results
         while (![string]::IsNullOrEmpty($object.next)) {
             Write-Verbose $object.next
-            $url = if ($APIUrl.Scheme -eq 'https' -or $Script:APIUrl.Scheme -eq 'https') {
-                $object.next -replace '^http:', 'https:'
-            } else {
-                $object.next
+            $url = [uri]::New($object.next)
+            if ($APIUrl.Scheme -eq 'https') {
+                [uri]$url = $url.OriginalString -replace '^http:', 'https:'
+            }
+            if ($APIUrl.Host -ne $url.Host) {
+                #in some situations, the returned "next" url may use a different host than before
+                [uri]$url = $url.OriginalString -replace "//$($url.Host)", "//$($APIUrl.Host)"
+            }
+            if ($object.next -ne $url.OriginalString) {
+                Write-Verbose $url.OriginalString
             }
             $object = Invoke-nbApi -rawUrl $url
             $results += $object.results
